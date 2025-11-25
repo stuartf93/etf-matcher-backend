@@ -15,7 +15,8 @@ app.add_middleware(
 class State(BaseModel):
     full_counterparties: Dict[str, Dict[str, List[str]]] = {}
     last_cp: Optional[str] = None
-    cp_input_drafts: Dict[str, str] = {}   # <--- NEW
+    cp_input_drafts: Dict[str, str] = {}   # NEW: share raw inputs per CP
+
 
 state = State()
 version = 0  # monotonically increasing version number
@@ -27,7 +28,7 @@ def get_state():
         "version": version,
         "full_counterparties": state.full_counterparties,
         "last_cp": state.last_cp,
-        "cp_input_drafts": state.cp_input_drafts,   # <--- NEW
+        "cp_input_drafts": state.cp_input_drafts,
     }
 
 
