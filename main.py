@@ -15,12 +15,12 @@ app.add_middleware(
 class State(BaseModel):
     full_counterparties: Dict[str, Dict[str, List[str]]] = {}
     last_cp: Optional[str] = None
-    cp_input_drafts: Dict[str, str] = {}   # NEW: share raw inputs per CP
+    cp_input_drafts: Dict[str, str] = {}
+    cp_list_dates: Dict[str, str] = {}   # NEW: CP -> date string or "UNKNOWN"
 
 
 state = State()
-version = 0  # monotonically increasing version number
-
+version = 0
 
 @app.get("/state")
 def get_state():
@@ -29,8 +29,8 @@ def get_state():
         "full_counterparties": state.full_counterparties,
         "last_cp": state.last_cp,
         "cp_input_drafts": state.cp_input_drafts,
+        "cp_list_dates": state.cp_list_dates,   # NEW
     }
-
 
 @app.post("/state")
 def update_state(new_state: State):
